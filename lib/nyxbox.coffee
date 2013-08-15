@@ -55,7 +55,7 @@ class Nyxbox
 
     return
 
-  reveal: (data) ->
+  reveal: (data, klass) ->
     @$container
       .html( data )
 
@@ -73,10 +73,10 @@ class Nyxbox
     $target.remove()
 
     @$nyxbox
-       .css
-          marginTop: top + 'px'
-          marginLeft: left + 'px'
-        .fadeIn( 500 )
+      .css
+        marginTop: top + 'px'
+        marginLeft: left + 'px'
+      .fadeIn( 500 )
 
 
   # Stretch overlay to fit the document
@@ -94,8 +94,8 @@ class Nyxbox
 
   fillFromHrefAndData: (href, data) ->
     # fill from data-nyxbox attribute
-    if data.match(/#.+/)
-      @reveal $(data).html()
+    if data.match(/#.+/) or data.match(/\..+/)
+      @fillFromContainer data
 
     else if data == 'image'
       @fillFromImage href
@@ -105,7 +105,7 @@ class Nyxbox
       url    = window.location.href.split('#')[0]
       target = href.replace(url, '')
       return if target == '#'
-      @reveal $(target).html()
+      @fillFromContainer target
 
     else if href.match(/\.(jpg|jpeg|png|gif|webm)/i)
       @fillFromImage href
@@ -114,18 +114,21 @@ class Nyxbox
     else
       @fillFromAjax href
 
+  fillFromContainer: (data) ->
+    @reveal $(data).html(), 'container'
+
 
   fillFromImage: (href) ->
     image = new Image()
 
     image.onload = =>
-      @reveal '<div class="image"><image src="' + image.src + '" /></div>'
+      @reveal '<image src="' + image.src + '" />', 'image'
 
     image.src = href
 
   fillFromAjax: (href) ->
     $.get href, (data) =>
-      @reveal data
+      @reveal data, 'ajax'
 
 
 $ ->
