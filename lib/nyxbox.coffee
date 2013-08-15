@@ -8,6 +8,8 @@ class Nyxbox
 
   enable: ->
     $('body').on 'click', 'a[data-nyxbox]', (e) =>
+      e.preventDefault()
+
       @start $(e.currentTarget)
       false
 
@@ -33,12 +35,12 @@ class Nyxbox
     @$nyxbox
       .hide()
       .on 'click', (e) =>
-        if $(e.target).attr('id') == 'nyxbox' then @end()
+        @end() if $(e.target).attr('id') == 'nyxbox' 
         false
 
-    # nyxbox  
-    @$nyxbox
-      .hide()
+    $(document).on 'keydown', (e) =>
+      @end() if e.keyCode == 27
+      true
 
   # start
   start: ($link) ->
@@ -49,17 +51,33 @@ class Nyxbox
       .height( $(document).height() )
       .fadeIn( 500 )
 
-    $window = $(window)
-    top     = $window.scrollTop() + $window.height() / 10
-    left    = $window.scrollLeft()
-
-    @$nyxbox
-      # .css
-      #   top: top + 'px'
-      #   left: left + 'px'
-      .fadeIn( 500 )
+    @fillFromHrefAndData $link.attr('href'), $link.attr('data-nyxbox')
 
     return
+
+  reveal: (data) ->
+    @$container
+      .html( data )
+
+    # clone container
+    $target = @$container
+      .clone()
+      .attr( 'style', 'position: absolute !important; visibility: hidden !important; display: block !important;' )
+      .appendTo( 'body' )
+
+    # get clone's width and height => set nyxbox top and left margin
+    top     = ($target.outerHeight() / -2)  # $(window).scrollTop() + $window.height() / 10
+    left    = ($target.outerWidth() / -2)   # $(window).scrollLeft()
+
+    # destroy clone
+    $target.remove()
+
+    @$nyxbox
+       .css
+          marginTop: top + 'px'
+          marginLeft: left + 'px'
+        .fadeIn( 500 )
+
 
   # Stretch overlay to fit the document
   sizeOverlay: () ->
@@ -70,8 +88,44 @@ class Nyxbox
   # close
   end: ->
     $(window).off 'resize', @sizeOverlay
+
     @$nyxbox.fadeOut 500
     @$overlay.fadeOut 500
+
+  fillFromHrefAndData: (href, data) ->
+    # fill from data-nyxbox attribute
+    if data.match(/#.+/)
+      @reveal $(data).html()
+
+    else if data == 'image'
+      @fillFromImage href
+
+    # guess from href
+    else if href.match(/#/)
+      url    = window.location.href.split('#')[0]
+      target = href.replace(url, '')
+      return if target == '#'
+      @reveal $(target).html()
+
+    else if href.match(/\.(jpg|jpeg|png|gif|webm)/i)
+      @fillFromImage href
+
+    # ultimate fallback
+    else
+      @fillFromAjax href
+
+
+  fillFromImage: (href) ->
+    image = new Image()
+
+    image.onload = =>
+      @reveal '<div class="image"><image src="' + image.src + '" /></div>'
+
+    image.src = href
+
+  fillFromAjax: (href) ->
+    $.get href, (data) =>
+      @reveal data
 
 
 $ ->
