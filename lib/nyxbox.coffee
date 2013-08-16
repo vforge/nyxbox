@@ -9,6 +9,7 @@ class Nyxbox
   enable: ->
     $('body').on 'click', '[data-nyxbox]', (e) =>
       e.preventDefault()
+      e.stopPropagation()
 
       @start $(e.currentTarget)
       false
