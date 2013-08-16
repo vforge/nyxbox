@@ -137,13 +137,13 @@ class Nyxbox
     image = new Image()
 
     image.onload = =>
-      @reveal '<image class="nyx-image" src="' + image.src + '" />', 'image'
+      @reveal '<img class="nyx-image" src="' + image.src + '" />', 'image'
 
     image.src = href
 
   fillFromAjax: (href) ->
     @cancelAjax()
-    
+
     @xhr = $.ajax
             type: 'GET'
             url: href
