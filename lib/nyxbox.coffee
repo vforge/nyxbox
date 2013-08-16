@@ -82,16 +82,20 @@ class Nyxbox
 
 
   # Stretch overlay to fit the document
-  sizeOverlay: () ->
+  sizeOverlay: ->
     $('#nyxbox-overlay')
       .width( $(document).width() )
       .height( $(document).height() )
 
-  # close
-  end: ->
+  # cancel ajax request (if present)
+  cancelAjax: ->
     if @xhr
       @xhr.abort()
       @xhr = null
+
+  # close
+  end: ->
+    @cancelAjax()
 
     $(window).off 'resize', @sizeOverlay
 
@@ -138,6 +142,8 @@ class Nyxbox
     image.src = href
 
   fillFromAjax: (href) ->
+    @cancelAjax()
+    
     @xhr = $.ajax
             type: 'GET'
             url: href
