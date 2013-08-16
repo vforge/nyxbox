@@ -19,6 +19,7 @@ class Nyxbox
     @$overlay   = $('#nyxbox-overlay')
     @$nyxbox    = $('#nyxbox')
     @$container = @$nyxbox.find('.nyx-container')
+    @xhr        = null
 
     # overlay
     @$overlay
@@ -87,6 +88,10 @@ class Nyxbox
 
   # close
   end: ->
+    if @xhr
+      @xhr.abort()
+      @xhr = null
+
     $(window).off 'resize', @sizeOverlay
 
     @$nyxbox.fadeOut 500
@@ -127,9 +132,15 @@ class Nyxbox
     image.src = href
 
   fillFromAjax: (href) ->
-    $.get href, (data) =>
-      @reveal data, 'ajax'
-
-
+    @xhr = $.ajax
+            type: 'GET'
+            url: href
+            dataType: 'script'
+            success: (data) =>
+              @reveal data, 'ajax'
+            error: (xhr, opts, error) =>
+              @reveal 'Error: ' + xhr.statusText, 'ajax-error'
+              false
+                
 $ ->
   nyxbox = new Nyxbox()
