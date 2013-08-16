@@ -99,7 +99,7 @@ class Nyxbox
     @$overlay.fadeOut 500
 
   fillFromHrefAndData: (href, data) ->
-    reg_images = /\.(jpg|jpeg|png|gif|webm)/i
+    reg_images = /.+\.(jpg|jpeg|png|gif|webm)/i
 
     # fill from data-nyxbox attribute
     if data.match(/#.+/) or data.match(/\..+/)
@@ -133,7 +133,7 @@ class Nyxbox
     image = new Image()
 
     image.onload = =>
-      @reveal '<image src="' + image.src + '" />', 'image'
+      @reveal '<image class="nyx-image" src="' + image.src + '" />', 'image'
 
     image.src = href
 
