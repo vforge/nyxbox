@@ -25,12 +25,12 @@ class Nyxbox
     # overlay
     @$overlay
       .hide()
-      .on 'click', () =>
+      .on 'click', (e) =>
         @end()
         false
 
     @$nyxbox.find('.nyx-close')
-      .on 'click', () =>
+      .on 'click', (e) =>
         @end()
         false
 
@@ -65,7 +65,7 @@ class Nyxbox
     $target = @$container
       .clone()
       .attr( 'style', 'position: absolute !important; visibility: hidden !important; display: block !important;' )
-      .appendTo( 'body' )
+      .appendTo 'body' 
 
     # get clone's width and height => set nyxbox top and left margin
     top     = ($target.outerHeight() / -2)  # $(window).scrollTop() + $window.height() / 10
@@ -78,7 +78,7 @@ class Nyxbox
       .css
         marginTop: top + 'px'
         marginLeft: left + 'px'
-      .fadeIn( 500 )
+      .fadeIn 500 
 
 
   # Stretch overlay to fit the document
@@ -99,12 +99,17 @@ class Nyxbox
     @$overlay.fadeOut 500
 
   fillFromHrefAndData: (href, data) ->
+    reg_images = /\.(jpg|jpeg|png|gif|webm)/i
+
     # fill from data-nyxbox attribute
     if data.match(/#.+/) or data.match(/\..+/)
       @fillFromContainer data
 
     else if data == 'image'
       @fillFromImage href
+
+    else if data.match reg_images
+      @fillFromImage data
 
     # guess from href
     else if href.match(/#/)
@@ -113,7 +118,7 @@ class Nyxbox
       return if target == '#'
       @fillFromContainer target
 
-    else if href.match(/\.(jpg|jpeg|png|gif|webm)/i)
+    else if href.match reg_images
       @fillFromImage href
 
     # ultimate fallback
