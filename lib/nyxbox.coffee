@@ -44,6 +44,11 @@ class Nyxbox
       @end() if e.keyCode == 27
       true
 
+    # make jQuery(document).trigger('nyxbox.close') possible
+    $(document).on 'nyxbox.close', (e) =>
+      @end()
+      false
+
   # start
   start: ($link) ->
     $(window).on 'resize', @sizeOverlay
