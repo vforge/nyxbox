@@ -7,7 +7,7 @@ class Nyxbox
     @build()
 
   enable: ->
-    $('body').on 'click', 'a[data-nyxbox]', (e) =>
+    $('body').on 'click', '[data-nyxbox]', (e) =>
       e.preventDefault()
 
       @start $(e.currentTarget)
@@ -141,6 +141,6 @@ class Nyxbox
             error: (xhr, opts, error) =>
               @reveal 'Error: ' + xhr.statusText, 'ajax-error'
               false
-                
+
 $ ->
   nyxbox = new Nyxbox()
