@@ -147,11 +147,12 @@ class Nyxbox
     @xhr = $.ajax
             type: 'GET'
             url: href
-            dataType: 'script'
+            cache: false
             success: (data) =>
               @reveal data, 'ajax'
             error: (xhr, opts, error) =>
-              @reveal 'Error: ' + xhr.statusText, 'ajax-error'
+              console.log xhr
+              @reveal '<div class="nyx-error"><strong>Error</strong>: ' + xhr.statusText + "</div>", 'ajax-error'
               false
 
 $ ->
