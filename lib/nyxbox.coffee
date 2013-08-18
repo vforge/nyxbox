@@ -7,7 +7,8 @@ class Nyxbox
     @build()
 
   enable: ->
-    $('body').on 'click', '[data-nyxbox]', (e) =>
+    # bind event
+    $(document).on 'click', '[data-nyxbox]', (e) =>
       e.preventDefault()
       e.stopPropagation()
 
@@ -15,31 +16,36 @@ class Nyxbox
       false
 
   build: ->
+    # add markup to body element
     $('<div id="nyxbox-overlay"></div><div id="nyxbox"><div class="nyx-container"></div><span class="nyx-close"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEpJREFUeNpiYGBgEAXivUCsxYAAukC8CyoHlvwPxK+gErpQ9n+oHIrAKzS2LrKRMAkUSSYG3OAvNt1YrSDoSJg3ddG8CRITBQgwALGIIG7dYZgsAAAAAElFTkSuQmCC" /></span></div>').appendTo('body')
 
+    # set up class vars
     @$overlay   = $('#nyxbox-overlay')
     @$nyxbox    = $('#nyxbox')
     @$container = @$nyxbox.find('.nyx-container')
     @xhr        = null
 
-    # overlay
+    # setup overlay
     @$overlay
       .hide()
       .on 'click', (e) =>
         @end()
         false
 
+    # setup close button
     @$nyxbox.find('.nyx-close')
       .on 'click', (e) =>
         @end()
         false
 
+    # setup nyxbox
     @$nyxbox
       .hide()
       .on 'click', (e) =>
         @end() if $(e.target).attr('id') == 'nyxbox' 
         false
 
+    # bind close modal event to ESC keyboard button
     $(document).on 'keydown', (e) =>
       @end() if e.keyCode == 27
       true
@@ -49,7 +55,6 @@ class Nyxbox
       @end()
       false
 
-  # start
   start: ($link) ->
     $(window).on 'resize', @sizeOverlay
 
@@ -160,5 +165,6 @@ class Nyxbox
               @reveal '<div class="nyx-error"><strong>Error</strong>: ' + xhr.statusText + "</div>", 'ajax-error'
               false
 
+# initialize Nyxbox
 $ ->
   nyxbox = new Nyxbox()
