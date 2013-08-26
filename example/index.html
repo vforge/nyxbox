@@ -3,14 +3,27 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-  <script src="../lib/nyxbox.js"  type="text/javascript"></script>
-  <link  href="../lib/nyxbox.css" media="screen" rel="stylesheet" type="text/css" />
+  <script src="../compiled/nyxbox.js"  type="text/javascript"></script>
+  <link  href="../compiled/nyxbox.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <a href="stairs.jpg" data-nyxbox>View 'stairs.jpg'</a>
-  <div id="nyxbox">
-    <div class="overlay"></div>
-    <div class="box">Lorem ipsum</div>
+  <h1>Nyxbox test</h1>
+  <p>
+    <a data-nyxbox="true" href="stairs.jpg">auto (image)</a>
+  </p>
+  <p>
+    <a data-nyxbox="image" href="stairs.jpg">image</a>
+  </p>
+  <p>
+    <a data-nyxbox="#hidden" href="#">container</a>
+  </p>
+  <p>
+    <a data-nyxbox="ajax" href="ajax_content.html">ajax modal window</a>
+  </p>
+  <div id="hidden" style="display:none">
+    <div style="width:200px;height:200px;background:#000;color:red">
+      Lorem ipsum...
+    </div>
   </div>
 </body>
 </html>

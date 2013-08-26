@@ -1,0 +1,46 @@
+#nyxbox-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999998;
+  background: black;
+  opacity: 0.4;
+  display: none; }
+
+#nyx-loader {
+  position: fixed;
+  z-index: 999998;
+  top: 50%;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -20px; }
+
+#nyxbox {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background-color: white;
+  box-shadow: 0 0 10px black;
+  padding: 5px;
+  border-radius: 10px;
+  z-index: 1000000; }
+  #nyxbox .nyx-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    background: white;
+    line-height: 0.1em;
+    padding: 2px; }
+    #nyxbox .nyx-close img {
+      opacity: 0.4;
+      -moz-transition-duration: 0.2s;
+      -webkit-transition-duration: 0.2s;
+      transition-duration: 0.2s; }
+    #nyxbox .nyx-close:hover img {
+      opacity: 1; }
+  #nyxbox .nyx-container img.nyx-image {
+    vertical-align: middle;
+    border-radius: 4px; }
+  #nyxbox .nyx-container .nyx-error {
+    padding: 10px 20px; }
