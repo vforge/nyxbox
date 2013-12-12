@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/vforge/nyxbox/badge.png)](https://coveralls.io/r/vforge/nyxbox)
 nyxbox
 ======
 
